@@ -6,7 +6,8 @@ function solution(s) {
             if(stack.length >= 2) {
                 const mid = stack.pop();
                 const left = stack.pop();
-                `${left}${mid}${char}` === "110" ? (str += "110") : stack.push(left, mid, char);
+                const temp = left+mid+char;
+                temp === "110" ? (str += "110") : stack.push(left, mid, char);
             } else {
                 stack.push(char);
             }
