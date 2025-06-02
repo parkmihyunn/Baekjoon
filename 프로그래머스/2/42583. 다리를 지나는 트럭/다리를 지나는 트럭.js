@@ -1,9 +1,7 @@
 function solution(bridge_length, weight, truck_weights) {
     const trucks = [...truck_weights];
     const crossing = new Array(bridge_length).fill("");
-    let numbers = 0;
-    let sum = 0;
-    let time = 0;
+    let numbers = 0, sum = 0, time = 0;
     let loop = true;
     while(loop) {
         time += 1;
