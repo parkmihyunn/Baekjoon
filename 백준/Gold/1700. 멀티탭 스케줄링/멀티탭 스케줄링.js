@@ -22,7 +22,7 @@ for (let i = 0; i < orders.length; i++) {
     .map((item) => {
       return [
         item,
-        rest.indexOf(item) === -1 ? 1000000000 : rest.indexOf(item),
+        rest.indexOf(item) === -1 ? 100 : rest.indexOf(item),
       ];
     })
     .sort((a, b) => a[1] - b[1])
