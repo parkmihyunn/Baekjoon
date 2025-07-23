@@ -1,48 +1,51 @@
 const fs = require("fs");
-const input = fs.readFileSync("dev/stdin").toString().trim().split("\n");
+const input = fs
+  .readFileSync("dev/stdin")
+  .toString()
+  .trim()
+  .split("\n");
 const N = +input[0];
-const points = input
+const dots = input
   .slice(1)
-  .map(el => el.split(" ").map(Number))
+  .map((el) => el.split(" ").map(Number))
   .sort((a, b) => a[0] - b[0]);
 
-function dist(a, b) {
-  return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2;
+function getDistance(dot1, dot2) {
+  return (dot1[0] - dot2[0]) ** 2 + (dot1[1] - dot2[1]) ** 2;
 }
 
-function closest(l, r) {
+function getClosest(l, r) {
   const len = r - l;
-  if (len <= 3) { // 브루트포스
-    let minD = Infinity;
+  if (len <= 3) {
+    let min = Infinity;
     for (let i = l; i < r; i++) {
       for (let j = i + 1; j < r; j++) {
-        minD = Math.min(minD, dist(points[i], points[j]));
+        min = Math.min(min, getDistance(dots[i], dots[j]));
       }
     }
-    const sorted = points.slice(l, r).sort((a, b) => a[1] - b[1]);
-    for (let i = 0; i < sorted.length; i++) points[l + i] = sorted[i];
-    return minD;
+    const sorted = dots.slice(l, r).sort((a, b) => a[1] - b[1]);
+    for (let i = 0; i < sorted.length; i++) dots[l + i] = sorted[i];
+    return min;
   }
 
   const mid = Math.floor((l + r) / 2);
-  const midX = points[mid][0];
-  let d = Math.min(closest(l, mid), closest(mid, r));
+  const midX = dots[mid][0];
+  let d = Math.min(getClosest(l, mid), getClosest(mid, r));
 
-  // y정렬 병합
   const tmp = [];
-  let i = l, j = mid;
+  let i = l,
+    j = mid;
   while (i < mid && j < r) {
-    if (points[i][1] < points[j][1]) tmp.push(points[i++]);
-    else tmp.push(points[j++]);
+    if (dots[i][1] < dots[j][1]) tmp.push(dots[i++]);
+    else tmp.push(dots[j++]);
   }
-  while (i < mid) tmp.push(points[i++]);
-  while (j < r) tmp.push(points[j++]);
-  for (let k = 0; k < tmp.length; k++) points[l + k] = tmp[k];
+  while (i < mid) tmp.push(dots[i++]);
+  while (j < r) tmp.push(dots[j++]);
+  for (let k = 0; k < tmp.length; k++) dots[l + k] = tmp[k];
 
-  // strip 검사
   const strip = [];
   for (let i = l; i < r; i++) {
-    if ((points[i][0] - midX) ** 2 < d) strip.push(points[i]);
+    if ((dots[i][0] - midX) ** 2 < d) strip.push(dots[i]);
   }
 
   for (let i = 0; i < strip.length; i++) {
@@ -51,11 +54,12 @@ function closest(l, r) {
       j < strip.length && (strip[j][1] - strip[i][1]) ** 2 < d;
       j++
     ) {
-      d = Math.min(d, dist(strip[i], strip[j]));
+      d = Math.min(d, getDistance(strip[i], strip[j]));
     }
   }
 
   return d;
 }
 
-console.log(closest(0, N));
+console.log(getClosest(0, N));
+
