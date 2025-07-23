@@ -23,7 +23,7 @@ function power(matrix, n) {
   while (n > 0n) {
     if (n & 1n) result = mul(result, matrix);
     matrix = mul(matrix, matrix);
-    n >>= 1n;
+    n = n / 2n;
   }
   return result;
 }
