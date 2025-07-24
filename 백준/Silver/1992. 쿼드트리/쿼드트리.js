@@ -12,7 +12,7 @@ const quadTree = (n, x, y) => {
   let sum = 0;
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      sum += arr[y + j][x + i];
+      sum += arr[x + j][y + i];
     }
   }
   if (sum === 0) anw.push("0");
@@ -21,8 +21,8 @@ const quadTree = (n, x, y) => {
     n /= 2;
     anw.push("(");
     quadTree(n, x, y);
+ quadTree(n, x, y + n);
     quadTree(n, x + n, y);
-    quadTree(n, x, y + n);
     quadTree(n, x + n, y + n);
     anw.push(")");
   }
