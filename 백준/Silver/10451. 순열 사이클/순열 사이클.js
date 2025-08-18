@@ -10,27 +10,20 @@ for (let i = 0; i < T; i++) {
     .split(" ")
     .map((item, idx) => [idx + 1, Number(item)]);
   const visited = Array(N).fill(false);
-  const queue = [0];
-  while (queue.length) {
-    const cur = queue.shift();
-    visited[cur] = true;
-    const next = arr[cur][1] - 1;
-    arr[cur] = [];
-    if (!arr[next]) {
+  const dfs = (index) => {
+    if (visited[index]) return;
+    visited[index] = true;
+    if (!visited[arr[index][1] - 1]) {
+      dfs(arr[index][1] - 1);
+    } else {
       anw += 1;
-      if (visited.filter((item) => !item).length === 0) break;
-      else {
-        let temp = 0;
-        for (let j = 0; j < N; j++) {
-          if (!visited[j]) {
-            temp = j;
-            break;
-          }
-        }
-        queue.push(temp);
-      }
-    } else queue.push(next);
+    }
+  };
+
+  for (let j = 0; j < N; j++) {
+    dfs(j);
   }
+
   answer.push(anw);
 }
 console.log(answer.join("\n"));
