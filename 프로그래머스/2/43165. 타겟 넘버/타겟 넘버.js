@@ -1,16 +1,16 @@
 function solution(numbers, target) {
     let answer = 0;
-    
-    function dfs( sum, index ) {
-        if(numbers.length === index) {
-            if(sum === target) answer += 1;
-            return;
+
+    const dfs = (index, sum) => {
+        if (index === numbers.length) {
+          if (sum === target) answer++;
+          return;
         }
-        dfs( sum+numbers[index], index+1 );
-        dfs( sum-numbers[index], index+1 );
-    }
-    
-    dfs(0,0);
+        dfs(index + 1, sum + numbers[index]);
+        dfs(index + 1, sum - numbers[index]);
+    };
+
+    dfs(0, 0);
     
     return answer;
 }
