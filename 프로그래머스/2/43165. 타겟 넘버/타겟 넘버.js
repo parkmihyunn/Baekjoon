@@ -1,16 +1,22 @@
 function solution(numbers, target) {
-    let answer = 0;
 
-    const dfs = (index, sum) => {
-        if (index === numbers.length) {
-          if (sum === target) answer++;
-          return;
+  let answer = 0
+  let queue = []
+  queue.push([0,0])
+
+    for (let i = 0; i < queue.length; i++) {
+
+      let [idx, sum] = queue[i]
+
+      if (idx === numbers.length) {
+        if (sum === target) {
+          answer++
         }
-        dfs(index + 1, sum + numbers[index]);
-        dfs(index + 1, sum - numbers[index]);
-    };
+        continue
+      }
+      queue.push([idx + 1, sum + numbers[idx]])
+      queue.push([idx + 1, sum - numbers[idx]])
+    }
 
-    dfs(0, 0);
-    
-    return answer;
+  return answer
 }
